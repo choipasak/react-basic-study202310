@@ -1,5 +1,7 @@
 # 리액트 프로젝트 시작하기
 
+git reset --hard HEAD~1
+
 1. node.js 설치 (LTS 버전으로)
 
 2. create-react-app 설치 (최초 1번)
