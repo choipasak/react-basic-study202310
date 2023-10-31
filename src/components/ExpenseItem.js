@@ -1,6 +1,7 @@
 import React from 'react';
 // css 로딩~
 import './ExpenseItem.css';
+import ExpenseDate from './ExpenseDate';
 
 // 이렇게 작성하는 것 마저 귀찮다. -> 구조분해할당
 // 객체 버전
@@ -37,9 +38,11 @@ const ExpenseItem = ({ title, price: propsPrice, date }) => {
   return (
     // 이렇게 {}열어주면 원하는 태그로 작성 가능해짐!
     <div className='expense-item'>
-      <div>{makeFormattedDate()}</div>
+      <ExpenseDate date={date} />
+      {/* 이렇게 작성 해 주면 자동으로 import 시켜준다. 
+        얘 한테 date값을 props로 넘기겠다*/}
       <div className='expense-item__description'>
-        <h2>{date.expenseTitle}</h2>
+        <h2>{title.toString()}</h2>
         <div className='expense-item__price'>{formattedPrice}원</div>
       </div>
     </div>

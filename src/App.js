@@ -12,17 +12,18 @@ function App() {
     {
       title: '타코야끼',
       price: 3000,
-      date: new Date(2023, 2, 11),
+      date: new Date(2023, 2 - 1, 11),
     },
     {
       title: '오코노미야끼',
       price: 12000,
-      date: new Date(2023, 4, 5),
+      date: new Date(2023, 4 - 1, 5),
     },
     {
       title: '불닭볶음면',
       price: 1800,
-      date: new Date(2023, 2, 11),
+      date: new Date(2023, 2 - 1, 11),
+      // 그냥 위처럼 -1 해주는 방법밖엔 없음
     },
   ];
 
