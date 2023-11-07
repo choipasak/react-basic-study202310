@@ -1,54 +1,48 @@
-// import logo from './logo.svg';
-import React from 'react';
-import './App.css';
-import Expenses from './components/Expenses';
-import Hello from './components/Hello';
-// import NoName from './NoName';
+import React, { useEffect, useState } from 'react';
+import MainHeader from './components/SideEffect/MainHeader/MainHeader';
+import Home from './components/SideEffect/Home/Home';
+import Login from './components/SideEffect/Login/Login';
 
 const App = () => {
-  // const $h2 = <h2>반가뵤</h2>;
+  // 로그인 상태를 관리하는 변수
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // 지출 항목 객체 배열
-  const expenses = [
-    {
-      title: '타코야끼',
-      price: 3000,
-      date: new Date(2023, 2 - 1, 11),
-    },
-    {
-      title: '오코노미야끼',
-      price: 12000,
-      date: new Date(2023, 4 - 1, 5),
-    },
-    {
-      title: '불닭볶음면',
-      price: 1800,
-      date: new Date(2023, 2 - 1, 11),
-      // 그냥 위처럼 -1 해주는 방법밖엔 없음
-    },
-  ];
+  // 화면이 리렌더링 될 때, localStorage를 확인해서
+  // 현재 login-flag가 존재하는지 검사.
+  console.log('로그인 검사 수행');
 
-  console.log('App 실행!');
+  // 기존의 로그인 한 사람인지 확인하는 코드는요
+  // 재렌더링 될 때마다 실행되면 안된다!
+  useEffect(() => {
+    console.log('useEffect 실행! - 최초 단 한번만 실행됨!');
+    const storedLoginFlag = localStorage.getItem('login-flag');
+    if (storedLoginFlag === '1') {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  // 서버로 로그인을 요청하는 함수 (나중에는 fetch를 통한 백엔드와의 연계가 필요.ㄴ)
+  const loginHandler = ({ email, password }) => {
+    // 로그인을 했다는 증거로 상태 값 변경 및 브라우저에 로그인 값을 1로 표현해서 저장!
+    localStorage.setItem('login-flag', '1');
+    setIsLoggedIn(true);
+  };
+
+  const logoutHandler = () => {
+    localStorage.removeItem('login-flag');
+    setIsLoggedIn(false);
+  };
 
   return (
-    // 함수 내에서  JSX를 리턴할 때에는 반드시 하나의태그만 리턴이 가능함
-    // 그래서 2개 이상의 태그를 리턴하는 상황 -> 1개의 부모태그로 묶어준다.
-    // 근데 만약 의미없는 부모태그를 하나 더 생성하게되는게 싫다!
-    // 그냥 태그로만 감싸주면 된다! <> </>로 감싸주기
     <>
-      {/* 부모 컴포넌트가 자식에게 데이터를 전달하기 위해서 사용하는 것이 props */}
-      {/* 어떻게 전달하고 받아내는가 */}
-      <Expenses items={expenses} />
-      {/* <Hello>
-        <ul>
-          <li>사과</li>
-          <li>포도</li>
-          <li>복숭아</li>
-        </ul>
-      </Hello>
-      얘는 children 공부할라고 사용했었음 */}
-      {/* children을 많이 사용하는 방식: 공통적 형식의 박스를 제작할 때 공통 박스
-      역할을 하는 것을 만들고, // 그걸 계속 사용. */}
+      <MainHeader
+        isAuthenticated={isLoggedIn}
+        onLogout={logoutHandler}
+      />
+      <main>
+        {isLoggedIn && <Home />}
+        {!isLoggedIn && <Login onLogin={loginHandler} />}
+      </main>
     </>
   );
 };

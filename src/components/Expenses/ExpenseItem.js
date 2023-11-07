@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 // css 로딩~
 import './ExpenseItem.css';
 import ExpenseDate from './ExpenseDate';
-import Card from './UI/Card';
+import Card from '../UI/Card';
 // 이렇게 작성하는 것 마저 귀찮다. -> 구조분해할당
 // 객체 버전
 // 선생님 노션에 검색
