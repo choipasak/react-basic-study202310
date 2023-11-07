@@ -25,7 +25,6 @@ const Login = ({ onLogin }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       console.log('useEffect called in Login.js!');
-
       setFormIsValid(
         enteredEmail.includes('@') && enteredPassword.trim().length > 6
       );
