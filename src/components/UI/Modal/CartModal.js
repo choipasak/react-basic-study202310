@@ -18,7 +18,7 @@ const CartModal = ({ children }) => {
   return (
     <>
       <Portal destId='backdrop-root'>
-        <Backdrop />
+        <Backdrop onClose={onClose} />
       </Portal>
       <Portal destId='overlay-root'>
         <ModalOverlay>{children}</ModalOverlay>
