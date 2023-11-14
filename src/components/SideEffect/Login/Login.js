@@ -1,8 +1,10 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 
 import Card from '../../UI/Card';
 import styles from './Login.module.css';
 import Button from '../../UI/Button/Button';
+import AuthContext from '../../../store/auto-context';
+import Input from '../../UI/Input/Input';
 
 // 리듀서 함수를 만들어 줘야 한다!
 /*
@@ -53,7 +55,9 @@ const passwordReducer = (state, action) => {
   }
 };
 
-const Login = ({ onLogin }) => {
+const Login = () => {
+  const { onLogin } = useContext(AuthContext);
+
   // email reducer 사용하기
   /*
     param1 - reducer function: 위에서 만든 리듀서 함수
@@ -84,13 +88,13 @@ const Login = ({ onLogin }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       console.log('useEffect called in Login.js!');
-      setFormIsValid(emailIsValid && passwordIsValid.trim().length > 6);
+      setFormIsValid(emailIsValid && passwordIsValid);
     }, 1000);
 
     // cleanup 함수 - 컴포넌트가 업데이트 되거나 없어지기 전에 실행
     return () => {
       console.log('clean up!');
-      // clearTimeout(timer);
+      clearTimeout(timer);
     };
 
     // 이 배열에 상태 변수를 넣으주면 그 상태 변수가 바뀔 때마다 useEffect를 재 호출 할 수 있다!
@@ -109,7 +113,8 @@ const Login = ({ onLogin }) => {
 
   const passwordChangeHandler = (e) => {
     dispatchPassword({
-      type: 'INPUT_VALIDATE',
+      type: 'USER_INPUT',
+      val: e.target.value,
     });
   };
 
@@ -133,34 +138,24 @@ const Login = ({ onLogin }) => {
   return (
     <Card className={styles.login}>
       <form onSubmit={submitHandler}>
-        <div
-          className={`${styles.control} ${
-            !emailState.isValid === false ? styles.invalid : ''
-          }`}
-        >
-          <label htmlFor='email'>E-Mail</label>
-          <input
-            type='email'
-            id='email'
-            value={emailState.value}
-            onChange={emailChangeHandler}
-            onBlur={validateEmailHandler}
-          />
-        </div>
-        <div
-          className={`${styles.control} ${
-            passwordIsValid === false ? styles.invalid : ''
-          }`}
-        >
-          <label htmlFor='password'>Password</label>
-          <input
-            type='password'
-            id='password'
-            value={passwordState.value}
-            onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
-          />
-        </div>
+        <Input
+          type='email'
+          id='email'
+          label='E-mail'
+          value={emailState.value}
+          isValid={emailIsValid}
+          onChange={emailChangeHandler}
+          onBlur={validateEmailHandler}
+        />
+        <Input
+          type='password'
+          id='password'
+          label='Password'
+          value={passwordState.value}
+          isValid={passwordIsValid}
+          onChange={passwordChangeHandler}
+          onBlur={validatePasswordHandler}
+        />
         <div className={styles.actions}>
           <Button
             type='submit'

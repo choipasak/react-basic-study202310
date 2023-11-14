@@ -5,7 +5,10 @@ import App from './App';
 // import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(
+  // index.js를 공급자로 놔두고 App.js를 consumer입장으로 만들어 준다.
+  <App />
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
